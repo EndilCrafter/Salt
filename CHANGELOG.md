@@ -1,5 +1,6 @@
-### Unreleased
+### 2024-06-20 - 1.2.5
 - Fixed salting recipe not reloading with `/reload` command. 
+- Added french localization.
 
 ### 2023-12-28 - 1.2.4
 - Tag changes from 1.2.3 are actually applied now.
