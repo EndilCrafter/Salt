@@ -1,3 +1,6 @@
+### Unreleased
+- Fixed salting recipe not reloading with `/reload` command. 
+
 ### 2023-12-28 - 1.2.4
 - Tag changes from 1.2.3 are actually applied now.
 

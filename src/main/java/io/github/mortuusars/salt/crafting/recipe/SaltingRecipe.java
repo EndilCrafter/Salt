@@ -20,8 +20,6 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class SaltingRecipe extends CustomRecipe {
-    private static final Ingredient CAN_BE_SALTED = Ingredient.of(Salt.ItemTags.CAN_BE_SALTED);
-
     private final String group;
     private final NonNullList<Ingredient> ingredients;
 
@@ -49,7 +47,7 @@ public class SaltingRecipe extends CustomRecipe {
 
             itemsCount++;
 
-            if (CAN_BE_SALTED.test(stackInSlot) && !hasFoodInput && !Salting.isSalted(stackInSlot))
+            if (stackInSlot.is(Salt.ItemTags.CAN_BE_SALTED) && !hasFoodInput && !Salting.isSalted(stackInSlot))
                 hasFoodInput = true;
 
             for (int ingredientIndex = 0; ingredientIndex < this.ingredients.size(); ingredientIndex++) {
@@ -66,7 +64,7 @@ public class SaltingRecipe extends CustomRecipe {
         for (int index = 0; index < craftingContainer.getContainerSize(); index++) {
             ItemStack itemStack = craftingContainer.getItem(index);
 
-            if (CAN_BE_SALTED.test(itemStack)) {
+            if (itemStack.is(Salt.ItemTags.CAN_BE_SALTED)) {
                 ItemStack resultStack = itemStack.copy();
                 resultStack.setCount(1);
 
@@ -93,7 +91,7 @@ public class SaltingRecipe extends CustomRecipe {
     }
 
     public Ingredient getFoodIngredient() {
-        return CAN_BE_SALTED;
+        return Ingredient.of(Salt.ItemTags.CAN_BE_SALTED);
     }
 
     public static class Serializer implements RecipeSerializer<SaltingRecipe> {
