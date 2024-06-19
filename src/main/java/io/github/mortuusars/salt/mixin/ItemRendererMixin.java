@@ -14,6 +14,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -22,7 +23,7 @@ import java.util.List;
 
 @Mixin(ItemRenderer.class)
 public class ItemRendererMixin {
-
+    @Unique
     private static final ResourceLocation SALT_OVERLAY = Salt.resource("item/salted_overlay");
 
     /**
@@ -31,6 +32,8 @@ public class ItemRendererMixin {
      */
     @Inject(method = "getModel", at = @At("RETURN"), cancellable = true)
     private void getModel(ItemStack stack, Level level, LivingEntity entity, int idk, CallbackInfoReturnable<BakedModel> cir) {
+        // From quick testing, stack walking does not seem to make any meaningful difference
+        // compared to mixing in into ItemRenderer#render method and checking for display context.
         if (Configuration.SALTED_OVERLAY_ENABLED.get() && Salting.isSalted(stack) && !CallStackHelper.isCalledFrom(CallStackHelper.ITEM_IN_HAND)) {
             BakedModel cachedModel = LayeredBakedModel.Cache.get(Item.getId(stack.getItem()));
             if (cachedModel != null)
